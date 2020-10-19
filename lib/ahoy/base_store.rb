@@ -32,7 +32,11 @@ module Ahoy
     end
 
     def exclude?
-      (!Ahoy.track_bots && bot?) || exclude_by_method?
+      (!include?) && ( (!Ahoy.track_bots && bot?) || exclude_by_method? )
+    end
+
+    def include?
+      include_by_method?
     end
 
     def generate_id
@@ -76,6 +80,18 @@ module Ahoy
           Ahoy.exclude_method.call(controller)
         else
           Ahoy.exclude_method.call(controller, request)
+        end
+      else
+        false
+      end
+    end
+
+    def include_by_method?
+      if Ahoy.include_method
+        if Ahoy.include_method.arity == 1
+          Ahoy.include_method.call(controller)
+        else
+          Ahoy.include_method.call(controller, request)
         end
       else
         false
