@@ -72,6 +72,7 @@ module Ahoy
   end
 
   mattr_accessor :exclude_method
+  mattr_accessor :include_method
 
   mattr_accessor :track_bots
   self.track_bots = false
